@@ -1,0 +1,52 @@
+package com.shinhan.mobmail.minji.sfoid
+
+import android.content.Intent
+import android.net.Uri
+import androidx.appcompat.app.AppCompatActivity
+import android.os.Bundle
+import android.util.Log
+import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.activity_user_detail.*
+
+class UserDetailActivity : AppCompatActivity() {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setContentView(R.layout.activity_user_detail)
+
+        val intent = getIntent()
+
+        Glide.with(this).load(intent.getStringExtra("image"))
+            .centerCrop()
+            .circleCrop()
+            .into(user_detail_image)
+        user_detail_name.text = intent.getStringExtra("name")
+        user_detail_age.text = "(${intent.getStringExtra("age")})"
+        user_detail_gender.text = intent.getStringExtra("gender")
+        user_detail_nat.text = intent.getStringExtra("nat")
+        user_detail_email.text = "\uD83D\uDCE7 " + intent.getStringExtra("email")
+        user_detail_email.setOnClickListener {
+            val myUri = Uri.fromParts("mailto", intent.getStringExtra("email"), null)
+            val emailIntent = Intent(Intent.ACTION_SENDTO, myUri)
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, "")
+            emailIntent.putExtra(Intent.EXTRA_TEXT, "")
+
+            startActivity(Intent.createChooser(emailIntent, ""))
+        }
+        user_detail_phone.text = "\u260E\uFE0F " + intent.getStringExtra("phone")
+        user_detail_phone.setOnClickListener {
+            val myUri = Uri.parse("tel:${getOnlyNumber(intent.getStringExtra("phone")?: "")}")
+            val dialIntent = Intent(Intent.ACTION_DIAL, myUri)
+            startActivity(dialIntent)
+        }
+        user_detail_cell.text = "\uD83D\uDCF1 " + intent.getStringExtra("cell")
+        user_detail_cell.setOnClickListener {
+            val myUri = Uri.parse("tel:${getOnlyNumber(intent.getStringExtra("cell")?: "")}")
+            val dialIntent = Intent(Intent.ACTION_DIAL, myUri)
+            startActivity(dialIntent)
+        }
+    }
+}
+
+fun getOnlyNumber(str: String): String{
+    return str.replace(("[^\\d.]").toRegex(), "")
+}
