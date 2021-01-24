@@ -14,16 +14,12 @@ data class User(
     val email: String,
     val phone: String,
     val cell: String,
-//    val location: Location
+    val location: Location
 )
 
 data class Id(val value: String)
 data class Picture(val large: String)
 data class Name(val first: String, val last: String)
 data class Dob(val age: Int)
-data class Location(
-    val street: String,
-    val city: String,
-    val state : String,
-    val postcode: String
-)
+data class Location(val city: String, val country: String, val coordinates: Coordinates)
+data class Coordinates(val latitude: String, val longitude: String)
