@@ -39,9 +39,9 @@ class UsersViewHolder(itemView : View): RecyclerView.ViewHolder(itemView){
 
     fun bind(user: User) {
         Glide.with(itemView.context).load(user.picture.large)
-            .centerCrop()
-            .circleCrop()
-            .into(photo)
+                .centerCrop()
+                .circleCrop()
+                .into(photo)
         name.text = "${user.name.first} ${user.name.last}"
         age.text = "(${user.dob.age})"
         gender.text = getGenderCode(user.gender)
@@ -53,6 +53,7 @@ class UsersViewHolder(itemView : View): RecyclerView.ViewHolder(itemView){
         card.setOnClickListener{
             val intent: Intent
             intent = Intent(itemView.context, UserDetailActivity::class.java)
+
             intent.putExtra("image", user.picture.large)
             intent.putExtra("name", "${user.name.first} ${user.name.last}")
             intent.putExtra("age", "${user.dob.age}" )
@@ -66,7 +67,9 @@ class UsersViewHolder(itemView : View): RecyclerView.ViewHolder(itemView){
             intent.putExtra("latitude", user.location.coordinates.latitude)
             intent.putExtra("longitude", user.location.coordinates.longitude)
 
+
             itemView.context.startActivity(intent)
+
         }
     }
 }
